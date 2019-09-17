@@ -1,0 +1,9 @@
+config LIBMBEDTLS
+	   bool "Mbed TLS - A portable, flexible SSL library "
+	   default n
+	   select LIBNEWLIBC
+	   select LIBCOMPILER_RT
+	   select LIBUNWIND
+	   select LIBCXX
+	   select LIBLWIP
+	   select LWIP_IPV6
