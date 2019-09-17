@@ -1,0 +1,153 @@
+#  libmbedtls Makefile.uk
+#
+#  Authors: Felipe Huici <felipe.huici@neclab.eu>
+#
+#
+#  Copyright (c) 2019, NEC Europe Ltd., NEC Corporation. All rights reserved.
+#
+#  Redistribution and use in source and binary forms, with or without
+#  modification, are permitted provided that the following conditions
+#  are met:
+#
+#  1. Redistributions of source code must retain the above copyright
+#     notice, this list of conditions and the following disclaimer.
+#  2. Redistributions in binary form must reproduce the above copyright
+#     notice, this list of conditions and the following disclaimer in the
+#     documentation and/or other materials provided with the distribution.
+#  3. Neither the name of the copyright holder nor the names of its
+#     contributors may be used to endorse or promote products derived from
+#     this software without specific prior written permission.
+#
+#  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+#  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+#  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+#  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+#  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+#  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+#  SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+#  INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+#  CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+#  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+#  POSSIBILITY OF SUCH DAMAGE.
+#
+#  THIS HEADER MAY NOT BE EXTRACTED OR MODIFIED IN ANY WAY.
+#
+
+################################################################################
+# Library registration
+################################################################################
+$(eval $(call addlib_s,libmbedtls,$(CONFIG_LIBMBEDTLS)))
+
+################################################################################
+# Sources
+################################################################################
+LIBMBEDTLS_VERSION=2.18.1
+LIBMBEDTLS_URL=https://github.com/ARMmbed/mbedtls/archive/mbedtls-$(LIBMBEDTLS_VERSION).zip
+
+#LIBMBEDTLS_PATCHDIR=$(LIBMBEDTLS_BASE)/patches
+$(eval $(call fetchas,libmbedtls,$(LIBMBEDTLS_URL),mbedtls-mbedtls-$(LIBMBEDTLS_VERSION).zip))
+#$(eval $(call patch,libmbedtls,$(LIBMBEDTLS_PATCHDIR),libmbedtls-$(LIBMBEDTLS_VERSION)))
+
+################################################################################
+# Helpers
+################################################################################
+LIBMBEDTLS_SUBDIR=mbedtls-mbedtls-$(LIBMBEDTLS_VERSION)
+LIBMBEDTLS_EXTRACTED=$(LIBMBEDTLS_ORIGIN)/$(LIBMBEDTLS_SUBDIR)
+
+################################################################################
+# Library includes
+################################################################################
+CINCLUDES-$(CONFIG_LIBMBEDTLS) += -I$(LIBMBEDTLS_EXTRACTED)/include
+CXXINCLUDES-$(CONFIG_LIBMBEDTLS) += -I$(LIBMBEDTLS_EXTRACTED)/include
+
+################################################################################
+# Global flags
+################################################################################
+# Suppress some warnings to make the build process look neater
+LIBMBEDTLS_SUPPRESS_FLAGS += -Wno-pointer-sign
+
+LIBMBEDTLS_CFLAGS-y   += $(LIBMBEDTLS_SUPPRESS_FLAGS)
+LIBMBEDTLS_CXXFLAGS-y += $(LIBMBEDTLS_SUPPRESS_FLAGS)
+
+################################################################################
+# Sources 
+################################################################################
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/aes.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/aesni.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/arc4.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/aria.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/asn1parse.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/asn1write.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/base64.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/bignum.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/blowfish.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/camellia.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/ccm.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/certs.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/chacha20.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/chachapoly.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/cipher.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/cipher_wrap.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/cmac.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/ctr_drbg.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/debug.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/des.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/dhm.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/ecdh.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/ecdsa.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/ecjpake.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/ecp.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/ecp_curves.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/entropy.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/entropy_poll.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/error.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/gcm.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/havege.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/hkdf.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/hmac_drbg.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/md.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/md2.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/md4.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/md5.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/md_wrap.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/memory_buffer_alloc.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/net_sockets.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/nist_kw.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/oid.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/padlock.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/pem.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/pk.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/pk_wrap.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/pkcs11.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/pkcs12.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/pkcs5.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/pkparse.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/pkwrite.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/platform.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/platform_util.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/poly1305.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/ripemd160.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/rsa.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/rsa_internal.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/sha1.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/sha256.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/sha512.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/ssl_cache.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/ssl_ciphersuites.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/ssl_cli.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/ssl_cookie.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/ssl_srv.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/ssl_ticket.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/ssl_tls.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/threading.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/timing.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/version.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/version_features.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/x509.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/x509_create.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/x509_crl.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/x509_crt.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/x509_csr.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/x509write_crt.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/x509write_csr.c
+LIBMBEDTLS_SRCS-y += $(LIBMBEDTLS_EXTRACTED)/library/xtea.c
