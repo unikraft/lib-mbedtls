@@ -1,0 +1,6 @@
+name        := "mbedtls"
+description := "A portable, flexible SSL library."
+gitrepo     := "https://github.com/ARMmbed/mbedtls.git"
+homepage    := "https://github.com/ARMmbed/mbedtls/"
+license     := "Apache-2.0"
+version     := 2.18.1 sha256:adc9055a494533df3a5b4e26b3c2868fc506f1d5c4f70f377f6ee3967d4ad624 https://github.com/ARMmbed/mbedtls/archive/mbedtls-2.18.1.tar.gz
